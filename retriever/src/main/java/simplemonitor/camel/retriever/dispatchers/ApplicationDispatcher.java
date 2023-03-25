@@ -27,6 +27,10 @@ public class ApplicationDispatcher extends Dispatcher {
 		this.setRoute("api/application");
 	}
 
+	/**
+	 * Converts the DTO object to JSON and tries to send
+	 * it in a POST request to the Application microservice. 
+	 */
 	@Override
 	public void dispatch(CategoryDto categoryDto) {
 		HttpClient httpClient = HttpClient.newHttpClient();

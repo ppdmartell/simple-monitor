@@ -15,6 +15,11 @@ import simplemonitor.camel.retriever.categories.UserCategoryDto;
 
 public class CategoryFactory {
 
+	/**
+	 * Will for a DTO category depending on the category attribute.
+	 * @param params
+	 * @return
+	 */
 	public static CategoryDto getInstanceFromParams(LinkedList<String> params) {
 		Logger logger = LoggerFactory.getLogger(CategoryFactory.class);
 		CategoryDto category;

@@ -25,6 +25,11 @@ public class MonitorRouter extends RouteBuilder {
 	
 	private int periodInMiliseconds = 20000;
 	
+	/**
+	 * Thanks to Apache Camel capabilities method indicesRetrieval
+	 * in class indicesBean will be executed every time depending on the value
+	 * defined by the variable periodInMiliseconds.
+	 */
 	@Override
 	public void configure() throws Exception {
 				

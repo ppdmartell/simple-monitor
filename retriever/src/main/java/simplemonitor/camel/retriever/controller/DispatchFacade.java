@@ -28,11 +28,17 @@ public class DispatchFacade {
 	
 	private Logger logger = LoggerFactory.getLogger(DispatchFacade.class);
 	
+	/**
+	 * If it is a new index, persist it
+	 * or else modify the existing one and update it
+	 * in the database. Then start the dispatching
+	 * process in any case.
+	 * @param category
+	 */
 	public void process(CategoryDto category) {
 		Category categoryFound = categoryService.getByUuid(category.getUuid());
 		if(categoryFound == null) {
 			categoryService.save(CategoryUtils.mapCategoryDtoToCategory(category));
-			logger.info("DISPATCHING A NEW ONE.");
 			dispatch(categoryFound);
 		}
 		else {
@@ -60,11 +66,16 @@ public class DispatchFacade {
 		}
 		if(updated) {
 			categoryService.save(old);
-			logger.info("DISPATCHING A MODIFIED ONE.");
 			dispatch(old);
 		}
 	}
 	
+	/**
+	 * Since there are different categories (the same amount
+	 * of microservices dedicating to dispatch) it depends
+	 * on the type in order to select the proper dispatcher.
+	 * @param category
+	 */
 	void dispatch(Category category) {
 		Dispatcher dispatcher;
 		if(category.getCategory().equals("boot")) {

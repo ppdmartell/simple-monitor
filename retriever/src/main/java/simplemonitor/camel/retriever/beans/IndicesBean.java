@@ -47,7 +47,11 @@ public class IndicesBean {
 	public static String elasticsearchPort = ":9200";
 	public static String protocol = "http://";
 
-	
+	/**
+	 * This method tries to get list of indexes from elasticsearch.
+	 * Then sends this list as a text to purgeAndClassifyRawInfo(rawText)
+	 * for further processing.
+	**/
 	public void indicesRetrieval() {
 		HttpClient httpClient = HttpClient.newHttpClient();
 		String URIparam = protocol +
@@ -67,6 +71,11 @@ public class IndicesBean {
     	}
 	}
 	
+	/**
+	 * Convert the raw text list of indexes
+	 * and call process() for more further processing.
+	 * @param rawText
+	 */
 	public void purgeAndClassifyRawInfo(String rawText) {
 		categories = new LinkedList<CategoryDto>();
 		rawText.lines().forEachOrdered(line -> {
@@ -80,6 +89,10 @@ public class IndicesBean {
 		this.process(categories);
 	}
 	
+	/**
+	 * This is a call to the Facade
+	 * @param categoriesParam
+	 */
 	public void process(LinkedList<CategoryDto> categoriesParam) {
 		for(CategoryDto category : categoriesParam) {
 			dispatchFacade.process(category);
