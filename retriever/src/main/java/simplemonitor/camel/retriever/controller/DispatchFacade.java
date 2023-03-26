@@ -39,7 +39,7 @@ public class DispatchFacade {
 		Category categoryFound = categoryService.getByUuid(category.getUuid());
 		if(categoryFound == null) {
 			categoryService.save(CategoryUtils.mapCategoryDtoToCategory(category));
-			dispatch(categoryFound);
+			dispatch(categoryFound, false);
 		}
 		else {
 			ifDiffUpdateAndDispatch(category, categoryFound);
@@ -66,7 +66,7 @@ public class DispatchFacade {
 		}
 		if(updated) {
 			categoryService.save(old);
-			dispatch(old);
+			dispatch(old, true);
 		}
 	}
 	
@@ -76,41 +76,41 @@ public class DispatchFacade {
 	 * on the type in order to select the proper dispatcher.
 	 * @param category
 	 */
-	void dispatch(Category category) {
+	void dispatch(Category category, boolean update) {
 		Dispatcher dispatcher;
 		if(category.getCategory().equals("boot")) {
 			dispatcher = new BootDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 		
 		if(category.getCategory().equals("kernel")) {
 			dispatcher = new KernelDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 		
 		if(category.getCategory().equals("application")) {
 			dispatcher = new ApplicationDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 		
 		if(category.getCategory().equals("security")) {
 			dispatcher = new SecurityDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 		
 		if(category.getCategory().equals("hardware")) {
 			dispatcher = new HardwareDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 		
 		if(category.getCategory().equals("user")) {
 			dispatcher = new UserDispatcher();
-			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));
+			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category), update);
 			return;
 		}
 	}

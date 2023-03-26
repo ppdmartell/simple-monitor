@@ -32,7 +32,7 @@ public class ApplicationDispatcher extends Dispatcher {
 	 * it in a POST request to the Application microservice. 
 	 */
 	@Override
-	public void dispatch(CategoryDto categoryDto) {
+	public void dispatch(CategoryDto categoryDto, boolean update) {
 		HttpClient httpClient = HttpClient.newHttpClient();
 		logger.info("DISPATCHING - > [" + categoryDto.toString() + "]");
 		Gson gson = new Gson();
