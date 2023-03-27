@@ -67,7 +67,7 @@ public class IndicesBean {
     		purgeAndClassifyRawInfo(rawText);
     	}
     	catch(Exception e) {
-    		logger.info("There has been some error trying to retrieving the indexes. Maybe the host is DOWN");
+    		logger.info("There has been some error trying to retrieving the indexes: " + e.getMessage());
     	}
 	}
 	

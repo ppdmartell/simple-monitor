@@ -19,7 +19,6 @@ public class UserDispatcher extends Dispatcher {
 	@Override
 	public void dispatch(CategoryDto category) {
 		// TODO Auto-generated method stub
-		logger.info("Dispatching - > [" + category.getCategory() + "] [" + category.getIndice() + "]");
 	}
 
 }

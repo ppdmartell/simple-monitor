@@ -39,7 +39,9 @@ public class DispatchFacade {
 		Category categoryFound = categoryService.getByUuid(category.getUuid());
 		if(categoryFound == null) {
 			categoryService.save(CategoryUtils.mapCategoryDtoToCategory(category));
-			dispatch(categoryFound);
+			logger.info("SAVED: " + category.toString());
+			categoryFound = CategoryUtils.mapCategoryDtoToCategory(category);
+			this.dispatch(categoryFound);
 		}
 		else {
 			ifDiffUpdateAndDispatch(category, categoryFound);
@@ -66,6 +68,7 @@ public class DispatchFacade {
 		}
 		if(updated) {
 			categoryService.save(old);
+			logger.info("MODIFIED: " + old.toString());
 			dispatch(old);
 		}
 	}
@@ -78,6 +81,7 @@ public class DispatchFacade {
 	 */
 	void dispatch(Category category) {
 		Dispatcher dispatcher;
+	
 		if(category.getCategory().equals("boot")) {
 			dispatcher = new BootDispatcher();
 			dispatcher.dispatch(CategoryUtils.mapCategoryToCategoryDto(category));

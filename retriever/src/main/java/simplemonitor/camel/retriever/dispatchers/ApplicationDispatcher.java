@@ -24,7 +24,7 @@ public class ApplicationDispatcher extends Dispatcher {
 		this.setEndpointProtocol("http://");
 		this.setEndpointIPAddress("192.168.122.202");
 		this.setEndpointPort(":8083/");
-		this.setRoute("api/application");
+		this.setRoute("api/category/application");
 	}
 
 	/**
@@ -34,7 +34,6 @@ public class ApplicationDispatcher extends Dispatcher {
 	@Override
 	public void dispatch(CategoryDto categoryDto) {
 		HttpClient httpClient = HttpClient.newHttpClient();
-		logger.info("DISPATCHING - > [" + categoryDto.toString() + "]");
 		Gson gson = new Gson();
 		String uriString = this.getEndpointProtocol() + 
 					 this.getEndpointIPAddress() + 
