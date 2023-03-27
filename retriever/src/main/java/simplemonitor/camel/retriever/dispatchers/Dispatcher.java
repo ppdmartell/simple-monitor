@@ -36,6 +36,6 @@ public abstract class Dispatcher {
 		this.route = route;
 	}
 	
-	public abstract void dispatch(CategoryDto category, boolean update);
+	public abstract void dispatch(CategoryDto category);
 	
 }
