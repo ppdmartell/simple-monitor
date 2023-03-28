@@ -17,14 +17,14 @@ import simplemonitor.camel.retriever.dispatchers.HardwareDispatcher;
 import simplemonitor.camel.retriever.dispatchers.KernelDispatcher;
 import simplemonitor.camel.retriever.dispatchers.SecurityDispatcher;
 import simplemonitor.camel.retriever.dispatchers.UserDispatcher;
-import simplemonitor.camel.retriever.model.dao.ICategoryDao;
 import simplemonitor.camel.retriever.model.entity.Category;
+import simplemonitor.camel.retriever.service.ICategoryService;
 
 @Component
 public class DispatchFacade {
 	
 	@Autowired
-	ICategoryDao categoryService;
+	ICategoryService categoryService;
 	
 	private Logger logger = LoggerFactory.getLogger(DispatchFacade.class);
 	
