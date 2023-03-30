@@ -6,35 +6,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitDto {
 	
+	@JsonProperty("_source")
+	private SourceDto source;
+	
 	@JsonProperty("_index")
-	private String index;
+	private String indexName;
 	
 	@JsonProperty("_id")
-	private String id;
+	private String legacyId;
 	
 	@JsonProperty("_score")
 	private int score;
 	
-	@JsonProperty("_source")
-	private SourceDto source;
-	
 	@JsonProperty("_ignored")
 	private List<String> ignored;
 
-	public String getIndex() {
-		return index;
+	public String getIndexName() {
+		return indexName;
 	}
 
-	public void setIndex(String index) {
-		this.index = index;
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
 	}
 
-	public String getId() {
-		return id;
+	public String getLegacyId() {
+		return legacyId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setLegacyId(String legacyId) {
+		this.legacyId = legacyId;
 	}
 
 	public int getScore() {
@@ -63,7 +63,7 @@ public class HitDto {
 
 	@Override
 	public String toString() {
-		return "HitDto [index=" + index + ", id=" + id + ", score=" + score + ", source=" + source + ", ignored="
+		return "HitDto [indexName=" + indexName + ", legacyId=" + legacyId + ", score=" + score + ", source=" + source + ", ignored="
 				+ ignored + "]";
 	}
 	

@@ -5,16 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SourceDto {
 	
-	@JsonProperty("@timestamp")
-	private String timestamp;
 	private LogDto log;
-	private String message;
-	private List<String> tags;
 	private InputDto input;
 	private FieldsDto fields;
 	private AgentDto agent;
 	private EcsDto ecs;
 	private HostDto host;
+	
+	@JsonProperty("@timestamp")
+	private String timestamp;
+	private String message;
+	private List<String> tags;
+	
 	public String getTimestamp() {
 		return timestamp;
 	}

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class HostDto {
 	
-	private String architecture;
 	private OsDto os;
-	private String id;
+	private String architecture;
+	private String legacyId;
 	private String name;
 	private boolean containerized;
 	private List<String> ip;
@@ -25,11 +25,11 @@ public class HostDto {
 	public void setOs(OsDto os) {
 		this.os = os;
 	}
-	public String getId() {
-		return id;
+	public String getLegacyId() {
+		return legacyId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setLegacyId(String legacyId) {
+		this.legacyId = legacyId;
 	}
 	public String getName() {
 		return name;
@@ -64,7 +64,7 @@ public class HostDto {
 	
 	@Override
 	public String toString() {
-		return "HostDto [architecture=" + architecture + ", os=" + os + ", id=" + id + ", name=" + name
+		return "HostDto [architecture=" + architecture + ", os=" + os + ", legacyId=" + legacyId + ", name=" + name
 				+ ", containerized=" + containerized + ", ip=" + ip + ", mac=" + mac + ", hostname=" + hostname + "]";
 	}
 	

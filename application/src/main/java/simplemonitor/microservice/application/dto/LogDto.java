@@ -2,8 +2,8 @@ package simplemonitor.microservice.application.dto;
 
 public class LogDto {
 	
-	private int offset;
 	private FileDto file;
+	private int offset;
 	
 	public int getOffset() {
 		return offset;

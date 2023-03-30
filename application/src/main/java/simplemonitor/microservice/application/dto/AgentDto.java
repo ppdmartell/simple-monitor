@@ -10,7 +10,7 @@ public class AgentDto {
 	
 	@JsonProperty("ephemeral_id")
 	private String ephemeralId;
-	private String id;
+	private String legacyId;
 	
 	public String getName() {
 		return name;
@@ -36,16 +36,16 @@ public class AgentDto {
 	public void setEphemeralId(String ephemeralId) {
 		this.ephemeralId = ephemeralId;
 	}
-	public String getId() {
-		return id;
+	public String getLegacyId() {
+		return legacyId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setLegacyId(String legacyId) {
+		this.legacyId = legacyId;
 	}
 	@Override
 	public String toString() {
 		return "AgentDto [name=" + name + ", type=" + type + ", version=" + version + ", ephemeralId=" + ephemeralId
-				+ ", id=" + id + "]";
+				+ ", legacyId=" + legacyId + "]";
 	}
 	
 }

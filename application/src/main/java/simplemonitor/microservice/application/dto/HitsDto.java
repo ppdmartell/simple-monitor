@@ -8,9 +8,10 @@ public class HitsDto {
 	
 	private TotalDto total;
 	
+	private List<HitDto> hits;
+	
 	@JsonProperty("max_score")
 	private int maxScore;
-	private List<HitDto> hits;
 	
 	public TotalDto getTotal() {
 		return total;
