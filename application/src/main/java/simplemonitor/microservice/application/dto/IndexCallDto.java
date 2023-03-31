@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class IndexCallDto {
 	
-	private int took;
-	
-	@JsonProperty("timed_out")
-	private boolean timedOut;
-	
 	@JsonProperty("_shards")
 	private ShardsDto shardsDto;
 	
 	private HitsDto hits;
+	
+	private int took;
+	
+	@JsonProperty("timed_out")
+	private boolean timedOut;
 
 	public int getTook() {
 		return took;
