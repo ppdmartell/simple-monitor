@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import simplemonitor.microservice.application.Constants;
+import simplemonitor.microservice.application.IndexCallMapper;
 import simplemonitor.microservice.application.dto.CategoryDto;
 import simplemonitor.microservice.application.dto.IndexCallDto;
+import simplemonitor.microservice.application.model.entity.IndexCall;
+import simplemonitor.microservice.application.model.service.IIndexCallService;
 
 @RestController
 @RequestMapping("/api/category")
@@ -22,6 +25,8 @@ public class ApplicationController {
 	
 	@Autowired
 	WebClient.Builder webClientBuilder;
+	IIndexCallService indexCallService;
+	@Autowired
 	
 	Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
@@ -35,6 +40,7 @@ public class ApplicationController {
 	 */
 	@PostMapping("/application")
 	public ResponseEntity<String> receiveCategoryDto(@Valid @RequestBody CategoryDto categoryDto) {
+		IndexCallDto responseIndexCallDto = new IndexCallDto();
 		logger.info("Received a CategoryDto object: " + categoryDto.toString());
 		String uri = Constants.PROTOCOL
 				+ Constants.REMOTE_HOST
@@ -42,8 +48,9 @@ public class ApplicationController {
 				+ categoryDto.getIndice()
 				+ Constants.QUERY_SEARCH;
 		logger.info("URI (" + uri + ")");
+		
 		try {
-			IndexCallDto responseIndexCallDto = webClientBuilder.build()
+			responseIndexCallDto = webClientBuilder.build()
 						.get()
 						.uri(uri)
 						.retrieve()
@@ -52,9 +59,32 @@ public class ApplicationController {
 			logger.info("RESPONSE CALL: " + responseIndexCallDto.toString());
 		} catch(Exception e) {
 			logger.info("The JSON index data for " + categoryDto.getIndice()
-			          + " couldn't be retrieved. Error: " + e.getMessage());
+			          + " couldn't be retrieved. Error: " + e.getMessage()
+			          + "\nException class: " + e.getClass().getName());
+			return ResponseEntity.ok("Remote APPLICATION host: Problems retrieving data from elasticsearch.");
 		}
+		final IndexCallDto newIndexCallDto = responseIndexCallDto;
+		new Thread(() -> this.processDto(newIndexCallDto)).start();
 		return ResponseEntity.ok(categoryDto.toString());
+	}
+	
+	/**
+	 * This method receives an IndexCallDto type param
+	 * and then uses MapStruct to perform a DTO-to-Entity mapping
+	 * and finally it tries to persist this object in the database
+	 * @param indexCallDto
+	 */
+	void processDto(IndexCallDto indexCallDto) {
+		if(indexCallDto != null) {
+			try {
+				IndexCall indexCall = IndexCallMapper.INSTANCE.toEntity(indexCallDto);
+				indexCallService.save(indexCall);
+			} catch(Exception e) {
+				logger.info("Exception type: " + e.getClass().getName()
+						  + " MAPPER error: " + e.getMessage());
+			}
+		}
+		else logger.info("The object of type IndexCallDto was null.");
 	}
 
 }
