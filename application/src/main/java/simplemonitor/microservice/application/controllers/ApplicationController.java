@@ -25,8 +25,9 @@ public class ApplicationController {
 	
 	@Autowired
 	WebClient.Builder webClientBuilder;
-	IIndexCallService indexCallService;
+	
 	@Autowired
+	IIndexCallService indexCallService;
 	
 	Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	

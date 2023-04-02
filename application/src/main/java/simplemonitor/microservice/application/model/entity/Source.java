@@ -1,5 +1,7 @@
 package simplemonitor.microservice.application.model.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -47,7 +49,7 @@ public class Source {
 	@ElementCollection
 	@CollectionTable(name = "source_tags")
 	@Column(name = "tag")
-	private String tags;
+	private List<String> tags;
 	
 	private String timestamp;
 	private String message;
@@ -94,10 +96,10 @@ public class Source {
 	public void setHost(Host host) {
 		this.host = host;
 	}
-	public String getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
-	public void setTags(String tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	public String getTimestamp() {
