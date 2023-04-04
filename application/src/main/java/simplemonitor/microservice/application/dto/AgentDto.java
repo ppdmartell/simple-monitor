@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AgentDto {
 	
+	private String legacyId;
 	private String name;
 	private String type;
 	private String version;
 	
 	@JsonProperty("ephemeral_id")
 	private String ephemeralId;
-	private String legacyId;
 	
 	public String getName() {
 		return name;

@@ -1,7 +1,11 @@
 package simplemonitor.microservice.application.model.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,6 +37,11 @@ public class Hit {
 	
 	@Column(name = "legacy_id")
 	private String legacyId;
+	
+	@ElementCollection
+	@CollectionTable(name = "hit_ignored")
+	@Column(name = "ignored")
+	private List<String> ignored;
 	
 	private int score;
 
@@ -76,6 +85,14 @@ public class Hit {
 		this.legacyId = legacyId;
 	}
 
+	public List<String> getIgnored() {
+		return ignored;
+	}
+
+	public void setIgnored(List<String> ignored) {
+		this.ignored = ignored;
+	}
+
 	public int getScore() {
 		return score;
 	}
@@ -86,8 +103,8 @@ public class Hit {
 
 	@Override
 	public String toString() {
-		return "Hit [id=" + id + ", source=" + source + ", indexName=" + indexName + ", legacyId=" + legacyId
-				+ ", score=" + score + "]";
+		return "Hit [id=" + id + ", hits=" + hits + ", source=" + source + ", indexName=" + indexName + ", legacyId="
+				+ legacyId + ", ignored=" + ignored + ", score=" + score + "]";
 	}
-	
+
 }

@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import simplemonitor.microservice.application.Constants;
 import simplemonitor.microservice.application.IndexCallMapper;
+import simplemonitor.microservice.application.IndexMapper;
 import simplemonitor.microservice.application.dto.CategoryDto;
 import simplemonitor.microservice.application.dto.IndexCallDto;
 import simplemonitor.microservice.application.model.entity.IndexCall;
@@ -28,6 +29,9 @@ public class ApplicationController {
 	
 	@Autowired
 	IIndexCallService indexCallService;
+	
+	@Autowired
+	IndexMapper indexMapper;
 	
 	Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
@@ -65,6 +69,7 @@ public class ApplicationController {
 			return ResponseEntity.ok("Remote APPLICATION host: Problems retrieving data from elasticsearch.");
 		}
 		final IndexCallDto newIndexCallDto = responseIndexCallDto;
+		logger.info("BEFORE thread");
 		new Thread(() -> this.processDto(newIndexCallDto)).start();
 		return ResponseEntity.ok(categoryDto.toString());
 	}
@@ -78,8 +83,11 @@ public class ApplicationController {
 	void processDto(IndexCallDto indexCallDto) {
 		if(indexCallDto != null) {
 			try {
-				IndexCall indexCall = IndexCallMapper.INSTANCE.toEntity(indexCallDto);
-				indexCallService.save(indexCall);
+				//TODO Try to do the mapping manual to understand more.
+				//IndexCall indexCall = IndexCallMapper.INSTANCE.toEntity(indexCallDto);
+				//logger.info("MAPPING PERFORMED WITHOUT ERRORS: " + indexCall.toString());
+				IndexCall indexCall = indexMapper.mapIndexDtoToEntity(indexCallDto);
+				//indexCallService.save(indexCall);
 			} catch(Exception e) {
 				logger.info("Exception type: " + e.getClass().getName()
 						  + " MAPPER error: " + e.getMessage());
