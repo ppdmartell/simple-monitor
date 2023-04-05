@@ -101,10 +101,4 @@ public class Hit {
 		this.score = score;
 	}
 
-	@Override
-	public String toString() {
-		return "Hit [id=" + id + ", hits=" + hits + ", source=" + source + ", indexName=" + indexName + ", legacyId="
-				+ legacyId + ", ignored=" + ignored + ", score=" + score + "]";
-	}
-
 }

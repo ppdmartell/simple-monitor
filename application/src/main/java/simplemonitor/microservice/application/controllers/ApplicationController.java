@@ -87,7 +87,7 @@ public class ApplicationController {
 				//IndexCall indexCall = IndexCallMapper.INSTANCE.toEntity(indexCallDto);
 				//logger.info("MAPPING PERFORMED WITHOUT ERRORS: " + indexCall.toString());
 				IndexCall indexCall = indexMapper.mapIndexDtoToEntity(indexCallDto);
-				//indexCallService.save(indexCall);
+				indexCallService.save(indexCall);
 			} catch(Exception e) {
 				logger.info("Exception type: " + e.getClass().getName()
 						  + " MAPPER error: " + e.getMessage());

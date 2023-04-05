@@ -161,13 +161,13 @@ public class IndexMapper {
 	public Hits mapParentHitsDtoToEntity(HitsDto hitsDto) {
 		Hits hits = new Hits();
 		List<Hit> hitsList = mapHitsDtoToEntity(hitsDto.getHits());
+		for(int i = 0; i < hitsList.size(); i++) {
+			hitsList.get(i).setHits(hits);
+		}
 		Total total = mapTotalDtoToEntity(hitsDto.getTotal());
 		hits.setHits(hitsList);
 		hits.setTotal(total);
 		hits.setMaxScore(hitsDto.getMaxScore());
-		for(int i = 0; i < hits.getHits().size(); i++) {
-			hits.getHits().get(i).setHits(hits);
-		}
 		return hits;
 	}
 	

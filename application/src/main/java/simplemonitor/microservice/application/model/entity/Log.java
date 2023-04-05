@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "log")
+@Table(name = "logs")
 public class Log {
 
 	@Id

@@ -23,11 +23,11 @@ public class Source {
 	private Long id;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_log_id", referencedColumnName = "id")
+	@JoinColumn(name = "fk_logs_id", referencedColumnName = "id")
 	private Log log;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_input_id", referencedColumnName = "id")
+	@JoinColumn(name = "fk_inputs_id", referencedColumnName = "id")
 	private Input input;
 	
 	@OneToOne(cascade = CascadeType.ALL)
