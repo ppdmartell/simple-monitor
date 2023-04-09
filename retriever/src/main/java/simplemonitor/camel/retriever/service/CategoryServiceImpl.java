@@ -1,5 +1,7 @@
 package simplemonitor.camel.retriever.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,11 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public void save(Category category) {
 		categoryDao.save(category);
-		
+	}
+
+	@Override
+	public List<Category> findAll() {
+		return (List<Category>) categoryDao.findAll();
 	}
 
 }

@@ -48,6 +48,12 @@ public class DispatchFacade {
 		}
 	}
 	
+	/**
+	 * Will be executed if the index already exists
+	 * then will be updated, persisted and dispatched
+	 * @param modified
+	 * @param old
+	 */
 	private void ifDiffUpdateAndDispatch(CategoryDto modified, Category old) {
 		boolean updated = false;
 		if(modified.getDocsCount() > old.getDocsCount()) {
