@@ -20,14 +20,12 @@ public class IndexesRestController {
 	@Autowired
 	private ICategoryService categoryService;
 	
-	@Autowired
-	private TotalIndexesDto totalIndexesDto;
+	//@Autowired
+	//private TotalIndexesDto totalIndexesDto;
 	
 	@GetMapping("/indices")
-	public TotalIndexesDto getIndexes() {
-		totalIndexesDto.setDescription("All the registered indices.");
-		totalIndexesDto.setIndices(categoryService.findAll());
-		return totalIndexesDto;
+	public List<Category> getIndexes() {
+		return categoryService.findAll();
 	}
 	
 	@GetMapping("/hosts")
