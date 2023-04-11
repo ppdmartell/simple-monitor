@@ -1,11 +1,14 @@
 package simplemonitor.microservice.application.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import simplemonitor.microservice.application.Constants;
+import simplemonitor.microservice.application.EventMapper;
 import simplemonitor.microservice.application.IndexCallMapper;
 import simplemonitor.microservice.application.IndexMapper;
 import simplemonitor.microservice.application.dto.CategoryDto;
 import simplemonitor.microservice.application.dto.IndexCallDto;
+import simplemonitor.microservice.application.model.entity.Event;
+import simplemonitor.microservice.application.model.entity.Hit;
 import simplemonitor.microservice.application.model.entity.IndexCall;
+import simplemonitor.microservice.application.model.service.IEventService;
 import simplemonitor.microservice.application.model.service.IIndexCallService;
 
 @RestController
@@ -32,6 +39,9 @@ public class ApplicationController {
 	
 	@Autowired
 	IndexMapper indexMapper;
+	
+	@Autowired
+	IEventService eventService;
 	
 	Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
@@ -88,12 +98,37 @@ public class ApplicationController {
 				//logger.info("MAPPING PERFORMED WITHOUT ERRORS: " + indexCall.toString());
 				IndexCall indexCall = indexMapper.mapIndexDtoToEntity(indexCallDto);
 				indexCallService.save(indexCall);
+				this.persistEvents(indexCall.getHits().getHits());
+				logger.info("DATA PERSISTED");
 			} catch(Exception e) {
 				logger.info("Exception type: " + e.getClass().getName()
 						  + " MAPPER error: " + e.getMessage());
 			}
 		}
 		else logger.info("The object of type IndexCallDto was null.");
+	}
+	
+	public void persistEvents(List<Hit> hits) {
+		Event event = new Event();
+		for(Hit hit : hits) {
+			try {
+				event = EventMapper.populateEvent(hit);
+				eventService.save(event);
+			}
+			catch(Exception e) {
+				logger.info("ERROR PERSISTING EVENT: " + e.getMessage()
+				           + ". CLASS EXCEPTION: " + e.getClass().getName());
+			}
+		}
+	}
+	
+	/**
+	 * Return the amount of application-type events in the events table
+	 * @return
+	 */
+	@GetMapping("/application/events/total")
+	public int getTotalEvents() {
+		return eventService.getTotalEvents();
 	}
 
 }
