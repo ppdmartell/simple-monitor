@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import simplemonitor.microservice.application.Constants;
 import simplemonitor.microservice.application.EventMapper;
-import simplemonitor.microservice.application.IndexCallMapper;
 import simplemonitor.microservice.application.IndexMapper;
 import simplemonitor.microservice.application.dto.CategoryDto;
 import simplemonitor.microservice.application.dto.IndexCallDto;
@@ -123,12 +123,54 @@ public class ApplicationController {
 	}
 	
 	/**
-	 * Return the amount of application-type events in the events table
+	 * Returns the amount of application-type events in the events table
 	 * @return
 	 */
 	@GetMapping("/application/events/total")
 	public int getTotalEvents() {
 		return eventService.getTotalEvents();
+	}
+	
+	/**
+	 * Returns ALL the events ordered by date, from first to last
+	 * from every host combined
+	 * @return
+	 */
+	@GetMapping("/application/events")
+	public List<Event> getEvents() {
+		return eventService.findAllDateOrdered();
+	}
+
+	/**
+	 * Returns a list of events for only a host, specified the name
+	 * as a parameter
+	 * @param hostname
+	 * @return
+	 */
+	@GetMapping("/application/events/host/{hostname}")
+	public List<Event> getEventsByHostname(@PathVariable String hostname) {
+		return eventService.getEventsByHostname(hostname);
+	}
+	
+	/**
+	 * Returns the amount of application-based events
+	 * for a certain host, specified the name as a parameter
+	 * @param hostname
+	 * @return
+	 */
+	@GetMapping("/application/events/amount/host/{hostname}")
+	public int getAmountEventsByHostname(@PathVariable String hostname) {
+		return this.getEventsByHostname(hostname).size();
+	}
+	
+	/**
+	 * Returns the registered attributes for a host specified as a parameter
+	 * @param hostname
+	 * @return
+	 */
+	@GetMapping("/application/info/host/{hostname}")
+	public Object[] getHostInfo(@PathVariable String hostname) {
+		return eventService.getHostInfo(hostname);
 	}
 
 }
