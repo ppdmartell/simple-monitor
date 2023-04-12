@@ -28,6 +28,7 @@ public class Event {
 	private String category;
 	private String hostname;
 	
+	@Column(name = "date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datetime;
 	
